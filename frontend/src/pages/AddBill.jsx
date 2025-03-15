@@ -36,7 +36,6 @@ function AddBill() {
   const [success, setSuccess] = useState(null);
   const [patientInfo, setPatientInfo] = useState(null);
 
-  // Form state
   const [formData, setFormData] = useState({
     services: [
       {
@@ -98,7 +97,7 @@ function AddBill() {
     const updatedServices = [...formData.services];
     updatedServices[index][field] = value;
 
-    // Convert cost to number if it's the cost field
+    
     if (field === "cost") {
       const numValue = parseFloat(value);
       updatedServices[index][field] = isNaN(numValue) ? value : numValue;
@@ -144,7 +143,7 @@ function AddBill() {
     setSuccess(null);
 
     try {
-      // Clean and validate services data
+      
       const validServices = formData.services.filter(
         (service) =>
           service.description.trim() && !isNaN(parseFloat(service.cost))
@@ -156,13 +155,13 @@ function AddBill() {
         );
       }
 
-      // Format services for submission
+      
       const formattedServices = validServices.map((service) => ({
         description: service.description.trim(),
         cost: parseFloat(service.cost),
       }));
 
-      // Prepare data for submission
+      
       const payload = {
         patientId,
         services: formattedServices,

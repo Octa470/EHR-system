@@ -1,6 +1,6 @@
 # Electronic Health Record System
 
-This is an Electronice Health Record (EHR) system made for Sanskritee Shilpa Pandey for her college project. The code is made in such a way that is does not look too unrealistic and fits in with the original project requirements.
+This is an Electronic Health Record (EHR) system made for Sanskritee Shilpa Pandey for her college project. The code is made in such a way that is does not look too unrealistic and fits in with the original project requirements.
 
 ## Contents
 
@@ -41,7 +41,7 @@ yarn install
 5. Navigate to frontend and install its dependencies as well
 
 ```
-cd frontend && npm install
+cd frontend && npm install --legacy-peer-deps
 ```
 
 6. Come back and start the development servers

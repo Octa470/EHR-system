@@ -158,13 +158,12 @@ function Billing() {
         throw new Error("Failed to download invoice");
       }
 
-      // Create a blob from the PDF Stream
       const blob = await response.blob();
-      // Create a link element, set the download attribute and href
+
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = `invoice_${billId}.pdf`;
-      // Append to the document body, click and remove
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -188,7 +187,6 @@ function Billing() {
         throw new Error("Failed to mark bill as paid");
       }
 
-      // Update the bill status in the UI
       setBills(
         bills.map((bill) =>
           bill._id === billId ? { ...bill, status: "paid" } : bill

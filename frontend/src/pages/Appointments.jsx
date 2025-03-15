@@ -126,8 +126,10 @@ const Appointments = () => {
       }
     };
 
-    fetchAppointments();
-  }, []);
+    if (user && isAuthenticated) {
+      fetchAppointments();
+    }
+  }, [user, isAuthenticated]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -169,8 +171,10 @@ const Appointments = () => {
       }
     };
 
-    fetchUserData();
-  }, [isPatient, isDoctor]);
+    if (user && isAuthenticated) {
+      fetchUserData();
+    }
+  }, [isPatient, isDoctor, user, isAuthenticated]);
 
   const handleCreateAppointment = async () => {
     try {
@@ -276,9 +280,9 @@ const Appointments = () => {
     return format(new Date(dateString), "MMM dd, yyyy");
   };
 
-  if (loading) {
+  if (loading || !user) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center h-screen">
         <RefreshCw className="animate-spin h-8 w-8 text-primary" />
       </div>
     );
@@ -287,7 +291,7 @@ const Appointments = () => {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
-        <AppSidebar userRole={user.role} />
+        <AppSidebar userRole={user?.role} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <Navbar isAuthenticated={isAuthenticated} />
           <header className="flex h-16 items-center gap-2 px-4 border-b bg-white shadow">

@@ -26,6 +26,7 @@ import {
 import Navbar from "@/components/pages/Navbar";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/pages/Footer";
+import defaultAvatar from "@/assets/default-dr-avatar.jpg";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -97,11 +98,13 @@ function Dashboard() {
 
       if (user.role === "patient" && user.doctor) {
         const doctorsRes = await fetch("/api/doctors", {
-          method: "GET"
+          method: "GET",
         });
         if (doctorsRes.ok) {
           const allDoctors = await doctorsRes.json();
-          const foundDoc = allDoctors.find((doc) => doc._id === user.doctor._id);
+          const foundDoc = allDoctors.find(
+            (doc) => doc._id === user.doctor._id
+          );
           if (foundDoc) setAssignedDoctor(foundDoc);
         }
       }
@@ -460,7 +463,19 @@ function Dashboard() {
                   >
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-lg font-bold text-blue-700">
-                        {appointment.doctorId?.name?.charAt(0) || "D"}
+                        {assignedDoctor?.profilePicture ? (
+                          <img
+                            src={
+                              assignedDoctor?.profilePicture || defaultAvatar
+                            }
+                            alt={`Dr. ${assignedDoctor.name}`}
+                            className="rounded-full object-cover border-2 mb-3"
+                          />
+                        ) : (
+                          <div className="rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-700 mb-3">
+                            {assignedDoctor?.name?.charAt(0) || "D"}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <p className="font-medium">
@@ -513,9 +528,17 @@ function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center">
-                <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-700 mb-3">
-                  {assignedDoctor?.name?.charAt(0) || "D"}
-                </div>
+                {assignedDoctor?.profilePicture ? (
+                  <img
+                    src={assignedDoctor?.profilePicture || defaultAvatar}
+                    alt={`Dr. ${assignedDoctor.name}`}
+                    className="w-20 h-20 rounded-full object-cover border-2 mb-3"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-700 mb-3">
+                    {assignedDoctor?.name?.charAt(0) || "D"}
+                  </div>
+                )}
                 <h3 className="text-lg font-medium">
                   {assignedDoctor?.name
                     ? `Dr. ${assignedDoctor.name}`
@@ -532,6 +555,14 @@ function Dashboard() {
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     Schedule
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => navigate(`/doctor`)}
+                  >
+                    View Profile
                   </Button>
                 </div>
               </div>

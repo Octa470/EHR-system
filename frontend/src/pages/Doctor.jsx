@@ -167,10 +167,10 @@ function Doctor() {
               <div className="w-full max-w-md bg-white p-6 border border-gray-200 rounded-lg shadow-lg">
                 {user.doctor &&
                 doctors.length > 0 &&
-                doctors.find((doc) => doc._id === user.doctor) ? (
+                doctors.find((doc) => doc._id === user.doctor._id) ? (
                   (() => {
                     const userDoctor = doctors.find(
-                      (doc) => doc._id === user.doctor
+                      (doc) => doc._id === user.doctor._id
                     );
                     return (
                       <div className="flex flex-col items-center">

@@ -36,7 +36,6 @@ function AddPrescription() {
   const [success, setSuccess] = useState(null);
   const [patientInfo, setPatientInfo] = useState(null);
 
-  // Form state
   const [formData, setFormData] = useState({
     diagnosis: "",
     medicines: [
@@ -76,7 +75,6 @@ function AddPrescription() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      // Check if response is ok before trying to parse JSON
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response:", errorText);
@@ -85,7 +83,6 @@ function AddPrescription() {
         );
       }
 
-      // Check content type to ensure it's JSON
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
@@ -143,7 +140,6 @@ function AddPrescription() {
     setSuccess(null);
 
     try {
-      // Clean and validate medicines data
       const validMedicines = formData.medicines.filter(
         (med) =>
           med.medicineName.trim() &&
@@ -158,7 +154,6 @@ function AddPrescription() {
         );
       }
 
-      // Prepare data for submission
       const payload = {
         patientId,
         diagnosis: formData.diagnosis.trim(),
@@ -174,13 +169,13 @@ function AddPrescription() {
         },
         body: JSON.stringify(payload),
       });
-      
+
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Error response:', errorText);
+        console.error("Error response:", errorText);
         throw new Error(`Failed to create prescription: ${response.status}`);
       }
-      
+
       const responseData = await response.json();
 
       setSuccess("Prescription created successfully");
