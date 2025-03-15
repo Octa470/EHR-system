@@ -21,9 +21,7 @@ EHR-system/
 ├── frontend/          # React-based UI components and pages
 ├── middlewares/       # Authentication and authorization logic
 ├── routes/            # API endpoints and business logic
-├── config/            # Application configuration
-├── models/            # Data models and schema definitions
-└── utils/             # Helper functions and utilities
+└── models/            # Data models and schema definitions
 ```
 
 ## 🔧 Technologies Used
@@ -91,9 +89,11 @@ The application should now be running at `http://localhost:3000`
 Create a `.env` file in the root directory and add the following variables:
 
 ```
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=your_mongo_uri
 JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=cloudinary_cloud_name
+CLOUDINARY_API_KEY=cloudinary_api_key
+CLOUDINARY_API_SECRET=cloudinary_api_secret
 ```
 
 ## 📝 Contributing
@@ -106,17 +106,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 📞 Contact
 
 For any questions or suggestions, please contact:
 
-Sanskritee Shilpa Pandey - [Add your contact info]  
-Project Maintainer: Shreyash Vardhan - shreyyashv@gmail.com
+Shrey Yash Verma - shreyyashv@gmail.com
 
 ---
-
-⭐️ From [Octa470](https://github.com/Octa470)
