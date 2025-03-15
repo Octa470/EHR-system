@@ -28,4 +28,10 @@ fs.readdirSync(path.join(__dirname, "routes")).forEach((file) => {
 app.get("/", (req, res) => res.send("EHR API Running"));
 
 const PORT = process.env.PORT || 5000;
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
