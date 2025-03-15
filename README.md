@@ -26,7 +26,7 @@ EHR-system/
 
 ## 🔧 Technologies Used
 
-- **Frontend**: React.js, Redux, Bootstrap
+- **Frontend**: React.js, Vite, Tailwind
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **Authentication**: JWT
