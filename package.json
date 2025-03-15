@@ -1,12 +1,13 @@
 {
   "name": "ehr-system",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "server.js",
-    "client": "cd frontend && npm run dev"
+    "server": "node server.js",
+    "client": "cd frontend && npm run dev",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
