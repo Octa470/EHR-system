@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
+  for (let i = 0; i < buf.length; i++) {
+    buf[i] = Math.floor(Math.random() * 256);
+  }
+  return buf;
+});
+
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
