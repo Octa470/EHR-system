@@ -5,12 +5,38 @@ const { upload } = require("../cloudinary");
 
 const router = express.Router();
 
-router.post("/register", upload.single("profilePicture"), async (req, res) => {
-  const { name, email, password, role } = req.body;
-
+router.post("/register", async (req, res) => {
   try {
+    const uploadMiddleware = (req, res, next) => {
+      try {
+        const uploadFunction = upload.single("profilePicture");
+        uploadFunction(req, res, (err) => {
+          if (err) {
+            console.error("Upload error:", err.message);
+
+            next();
+          } else {
+            next();
+          }
+        });
+      } catch (error) {
+        console.error("Upload middleware error:", error.message);
+
+        next();
+      }
+    };
+
+    await new Promise((resolve) => {
+      uploadMiddleware(req, res, resolve);
+    });
+
+    const { name, email, password, role } = req.body;
+
+    console.log("Registration attempt:", { name, email, role });
+
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists." });
+
     if (!["doctor", "patient"].includes(role))
       return res.status(400).json({ error: "Invalid role specified." });
 
@@ -20,10 +46,10 @@ router.post("/register", upload.single("profilePicture"), async (req, res) => {
     await user.save();
     res.status(201).json({ message: "User registered successfully!" });
   } catch (error) {
+    console.error("Registration error:", error.message, error.stack);
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 });
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
