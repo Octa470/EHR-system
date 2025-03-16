@@ -12,7 +12,7 @@ export const useAuth = () => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("No token");
 
-        const response = await fetch("http://localhost:5000/api/auth/me", {
+        const response = await fetch("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
           method: "GET"
         });
@@ -23,6 +23,7 @@ export const useAuth = () => {
         setUser(data);
       } catch (error) {
         console.error("User not authenticated:", error);
+        localStorage.removeItem("token");
         navigate("/login");
       } finally {
         setLoading(false);

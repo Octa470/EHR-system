@@ -50,16 +50,21 @@ router.patch("/pay/:billingId", verifyRole(["doctor"]), async (req, res) => {
     const bill = await Billing.findById(req.params.billingId);
     if (!bill)
       return res.status(404).json({ error: "Billing record not found" });
+
+    if (bill.doctor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Not authorized to modify this bill" });
+    }
+    
     bill.status = "paid";
     await bill.save();
     res.json({ message: "Payment marked as paid", bill });
   } catch (error) {
+    console.error("Error marking bill as paid:", error);
     res
       .status(500)
       .json({ error: "Internal server error", message: error.message });
   }
 });
-
 router.get(
   "/invoice/:billingId",
   verifyRole(["doctor", "patient"]),

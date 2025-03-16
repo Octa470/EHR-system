@@ -14,7 +14,7 @@ export default defineConfig({
       "/api": {
         target: "https://ehr-system.up.railway.app",
         changeOrigin: true,
-        secure: true,
+        secure: false,
       },
     },
   },
