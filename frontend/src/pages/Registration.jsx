@@ -41,33 +41,38 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!role) {
-      setError("Please select a role");
-      return;
-    }
     try {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
       formData.append("role", role);
-      if (profilePicture) formData.append("profilePicture", profilePicture);
-
+      
+      if (profilePicture) {
+        formData.append("profilePicture", profilePicture);
+        console.log("Attaching profile picture:", profilePicture.name);
+      }
+  
+      console.log("Submitting registration form");
+      
       const res = await fetch("/api/auth/register", {
         method: "POST",
         body: formData,
       });
-
+  
+      console.log("Registration response status:", res.status);
+      
+      const data = await res.json();
+      console.log("Registration response:", data);
+      
       if (!res.ok) {
-        const data = await res.json();
         setError(data.message || data.error || "Registration failed");
       } else {
-        await res.json();
         navigate("/login");
       }
     } catch (err) {
-      setError("Registration failed");
-      console.log(err);
+      console.error("Registration error:", err);
+      setError("Registration failed: " + (err.message || "Unknown error"));
     }
   };
 

@@ -13,8 +13,6 @@ router.post("/register", async (req, res) => {
         uploadFunction(req, res, (err) => {
           if (err) {
             console.error("Upload error:", err.message);
-
-            next();
           } else {
             next();
           }
@@ -46,8 +44,13 @@ router.post("/register", async (req, res) => {
     await user.save();
     res.status(201).json({ message: "User registered successfully!" });
   } catch (error) {
-    console.error("Registration error:", error.message, error.stack);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Registration error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      code: error.code
+    });
+    res.status(500).json({ message: "Server Error", error: error.message })
   }
 });
 router.post("/login", async (req, res) => {
