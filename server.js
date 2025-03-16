@@ -9,13 +9,20 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? process.env.ALLOWED_ORIGINS?.split(",") ||
-        "https://ehr-system.up.railway.app/"
-      : "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  credentials: true,
+  origin: function(origin, callback) {
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
+    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
+      callback(null, true);
+    } else {
+      console.log(`Origin ${origin} not allowed by CORS: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 };
 app.use(cors(corsOptions));
 
