@@ -36,7 +36,6 @@ router.post("/book", verifyRole(["patient", "doctor"]), async (req, res) => {
       initiatedBy: userRole,
     });
 
-    // Populate the newly created appointment with patient and doctor info
     const populatedAppointment = await Appointment.findById(appointment._id)
       .populate("patientId", "name email")
       .populate("doctorId", "name email");

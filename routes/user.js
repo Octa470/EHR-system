@@ -5,12 +5,10 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// Add these imports at the top of your user.js file
 const multer = require("multer");
-const cloudinary = require("cloudinary").v2; // Assuming you're using Cloudinary
+const cloudinary = require("cloudinary").v2;
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Replace your existing route with:
 router.post(
   "/change-profile-picture",
   authMiddleware,
@@ -21,7 +19,6 @@ router.post(
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      // Upload to cloudinary (or your preferred storage)
       const result = await cloudinary.uploader
         .upload_stream(
           {

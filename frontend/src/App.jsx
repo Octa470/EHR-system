@@ -2,6 +2,8 @@ import {  Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import Login from "./pages/Login"
 import Register from "./pages/Registration"
+import ForgotPassword from "./pages/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 import Dashboard from "./pages/Dashboard"
@@ -24,6 +26,8 @@ function App() {
     <Route path="/" element={<LandingPage />}></Route>
     <Route path="login" element={<Login />}></Route>
     <Route path="register" element={<Register />}></Route>
+    <Route path="forgot-password" element={<ForgotPassword />}></Route>
+    <Route path="reset-password" element={<ResetPassword />}></Route>
     <Route path="about" element={<About />}></Route>
     <Route path="contact" element={<Contact />}></Route>
     <Route path="dashboard" element={<Dashboard />}></Route>

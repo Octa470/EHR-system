@@ -101,4 +101,46 @@ router.get("/me", async (req, res) => {
   }
 });
 
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const resetToken = Math.random().toString(36).substring(2, 15);
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpiry = Date.now() + 3600000;
+    await user.save();
+
+    res.json({ 
+      message: "Password reset initiated", 
+      resetLink: `/reset-password?token=${resetToken}&email=${email}` 
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { email, token, password } = req.body;
+    const user = await User.findOne({
+      email,
+      resetPasswordToken: token,
+      resetPasswordExpiry: { $gt: Date.now() }
+    });
+    
+    if (!user) return res.status(400).json({ message: "Invalid or expired token" });
+    
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiry = undefined;
+    await user.save();
+    
+    res.json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;
