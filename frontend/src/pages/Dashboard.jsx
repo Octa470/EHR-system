@@ -311,7 +311,7 @@ function Dashboard() {
                     <Button
                       size="sm"
                       onClick={() =>
-                        navigate(`/appointments/${appointment._id}`)
+                        navigate(`/appointments`)
                       }
                       variant="outline"
                     >
